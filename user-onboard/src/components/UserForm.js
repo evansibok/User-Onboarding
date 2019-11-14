@@ -1,16 +1,20 @@
 import React from "react";
 import { withFormik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from 'yup'
+import * as Yup from "yup";
 
 const UserForm = () => {
   return (
     <div>
       <Form>
+        <ErrorMessage name="name" />
+        <br />
         <label>
           Name:
           <Field type="text" name="name" />
         </label>
         <br />
+        <br />
+        <ErrorMessage name="email" />
         <br />
         <label>
           Email:
@@ -18,12 +22,19 @@ const UserForm = () => {
         </label>
         <br />
         <br />
+
+        <ErrorMessage name="password" />
+        <br />
+
         <label>
           Password:
           <Field type="password" name="password" />
         </label>
         <br />
         <br />
+        <ErrorMessage name="terms" />
+        <br />
+
         <label>
           I accept the terms and service!
           <Field type="checkbox" name="terms" />
@@ -47,12 +58,16 @@ const UserFormikForm = withFormik({
   },
 
   validationSchema: Yup.object().shape({
-    name: Yup.string().required("This field is required!"),
+    name: Yup.string()
+      .min(3, "Name should be at least three characters")
+      .required("Please enter name"),
     email: Yup.string()
       .email("Please enter a valid Email!")
-      .required(),
+      .required("Please enter email"),
     password: Yup.string()
-      .required()
+      .min(8, "Password should be at least 8 characters!")
+      .required("Please enter password!"),
+    terms: Yup.boolean()
   })
 })(UserForm);
 

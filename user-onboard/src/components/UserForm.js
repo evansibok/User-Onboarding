@@ -1,6 +1,7 @@
 import React from "react";
 import { withFormik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from 'axios';
 
 const UserForm = () => {
   return (
@@ -14,6 +15,7 @@ const UserForm = () => {
         </label>
         <br />
         <br />
+
         <ErrorMessage name="email" />
         <br />
         <label>
@@ -25,16 +27,15 @@ const UserForm = () => {
 
         <ErrorMessage name="password" />
         <br />
-
         <label>
           Password:
           <Field type="password" name="password" />
         </label>
         <br />
         <br />
+
         <ErrorMessage name="terms" />
         <br />
-
         <label>
           I accept the terms and service!
           <Field type="checkbox" name="terms" />
@@ -48,6 +49,7 @@ const UserForm = () => {
 };
 
 const UserFormikForm = withFormik({
+  
   mapPropsToValues() {
     return {
       name: "",
@@ -67,8 +69,15 @@ const UserFormikForm = withFormik({
     password: Yup.string()
       .min(8, "Password should be at least 8 characters!")
       .required("Please enter password!"),
-    terms: Yup.boolean()
-  })
+    terms: Yup.boolean().required("This box must be checked!")
+  }),
+
+  handleSubmit(values, bag) {
+    console.log(values);
+    console.log(bag);
+    
+  }
+
 })(UserForm);
 
 export default UserFormikForm;

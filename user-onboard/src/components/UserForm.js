@@ -34,11 +34,11 @@ const UserForm = () => {
         <br />
         <br />
 
-        <ErrorMessage name="terms" />
+        <ErrorMessage name="agreeTerms" />
         <br />
         <label>
           I accept the terms and service!
-          <Field type="checkbox" name="terms" />
+          <Field type="checkbox" name="agreeTerms" />
         </label>
         <br />
         <br />
@@ -55,7 +55,7 @@ const UserFormikForm = withFormik({
       name: "",
       email: "",
       password: "",
-      terms: false
+      agreeTerms: false
     };
   },
 
@@ -69,14 +69,21 @@ const UserFormikForm = withFormik({
     password: Yup.string()
       .min(8, "Password should be at least 8 characters!")
       .required("Please enter password!"),
-    terms: Yup.boolean().required("This box must be checked!")
+    agreeTerms: Yup.boolean().test(
+        'consent',
+        'You have to agree with our Terms and Conditions!',
+        value => value === true
+      )
+      .required(
+        'You have to agree with our Terms and Conditions!'
+      )
   }),
 
   handleSubmit(values, bag) {
     console.log(values);
     console.log(bag);
     
-    bag.resetForm()
+    bag.resetForm();
   }
 
 })(UserForm);

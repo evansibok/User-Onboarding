@@ -80,10 +80,15 @@ const UserFormikForm = withFormik({
   }),
 
   handleSubmit(values, bag) {
-    console.log(values);
-    console.log(bag);
-    
-    bag.resetForm();
+
+    axios
+      .post("https://reqres.in/api/users/", values)
+      .then(res => {
+        console.log(res.data);
+        bag.resetForm();
+      })
+      .catch(err => err);
+
   }
 
 })(UserForm);

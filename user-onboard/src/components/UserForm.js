@@ -47,9 +47,12 @@ const UserFormikForm = withFormik({
   },
 
   validationSchema: Yup.object().shape({
-    name: Yup.string().required(),
-    email: Yup.string().email().required(),
-    password: Yup.string().password().required()
+    name: Yup.string().required("This field is required!"),
+    email: Yup.string()
+      .email("Please enter a valid Email!")
+      .required(),
+    password: Yup.string()
+      .required()
   })
 })(UserForm);
 

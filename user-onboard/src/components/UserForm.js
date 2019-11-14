@@ -76,6 +76,7 @@ const UserFormikForm = withFormik({
     console.log(values);
     console.log(bag);
     
+    bag.resetForm()
   }
 
 })(UserForm);

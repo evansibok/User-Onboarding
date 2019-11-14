@@ -1,9 +1,9 @@
 import React from "react";
 import { withFormik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from 'axios';
+import axios from "axios";
 
-const UserForm = () => {
+const UserForm = ({ users, setUsers }) => {
   return (
     <div>
       <Form>
@@ -49,7 +49,6 @@ const UserForm = () => {
 };
 
 const UserFormikForm = withFormik({
-  
   mapPropsToValues() {
     return {
       name: "",
@@ -69,28 +68,28 @@ const UserFormikForm = withFormik({
     password: Yup.string()
       .min(8, "Password should be at least 8 characters!")
       .required("Please enter password!"),
-    agreeTerms: Yup.boolean().test(
-        'consent',
-        'You have to agree with our Terms and Conditions!',
+    agreeTerms: Yup.boolean()
+      .test(
+        "consent",
+        "You have to agree with our Terms and Conditions!",
         value => value === true
       )
-      .required(
-        'You have to agree with our Terms and Conditions!'
-      )
+      .required("You have to agree with our Terms and Conditions!")
   }),
 
   handleSubmit(values, bag) {
-
     axios
       .post("https://reqres.in/api/users/", values)
       .then(res => {
-        console.log(res.data);
+        const postedUser = res.data;
+        axios
+          .get("https://reqres.in/api/users/")
+          .then(res => bag.props.setUsers([...res.data.data, postedUser]))
+          .catch(err => err.message);
         bag.resetForm();
       })
-      .catch(err => err);
-
+      .catch(err => err.message);
   }
-
 })(UserForm);
 
 export default UserFormikForm;

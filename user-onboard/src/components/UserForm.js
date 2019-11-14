@@ -85,7 +85,7 @@ const UserFormikForm = withFormik({
         axios
           .get("https://reqres.in/api/users/")
           .then(res => bag.props.setUsers([...res.data.data, postedUser]))
-          .catch(err => bag.setErrors(err.message)); // Errors don't want when I purposely make the request to fail.
+          .catch(err => err.message); 
         bag.resetForm();
       })
       .catch(err => bag.setErrors(err.message));

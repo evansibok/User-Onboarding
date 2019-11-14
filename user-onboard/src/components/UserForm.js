@@ -70,7 +70,7 @@ const UserFormikForm = withFormik({
       .required("Please enter password!"),
     agreeTerms: Yup.boolean()
       .test(
-        "consent",
+        "agreeTerms",
         "You have to agree with our Terms and Conditions!",
         value => value === true
       )
@@ -85,7 +85,7 @@ const UserFormikForm = withFormik({
         axios
           .get("https://reqres.in/api/users/")
           .then(res => bag.props.setUsers([...res.data.data, postedUser]))
-          .catch(err => err.message); 
+          .catch(err => err.message);
         bag.resetForm();
       })
       .catch(err => bag.setErrors(err.message));
